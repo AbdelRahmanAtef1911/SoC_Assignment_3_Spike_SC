@@ -1,0 +1,30 @@
+misses per cache: D$=472069, I$=230, L2$=423787
+D$ all phases                n=472061  mean=   23.86  median=   6.0  CV= 5.78  min=1  max=84693
+                             most common gaps (ns:share)  2:27.7%, 1:21.8%, 20:13.8%, 26:11.0%, 70:8.4%
+
+phase markers (SystemC time of the marker miss vs. minstret read just before it):
+  marker 0: t=7340       ns  minstret=7325      time-minstret=15
+  marker 1: t=8532847    ns  minstret=8532832   time-minstret=15
+  marker 2: t=8800710    ns  minstret=8800695   time-minstret=15
+  marker 3: t=8930841    ns  minstret=8930826   time-minstret=15
+  marker 4: t=10020820   ns  minstret=10020805  time-minstret=15
+  marker 5: t=10152155   ns  minstret=10152140  time-minstret=15
+  marker 6: t=11240212   ns  minstret=11240197  time-minstret=15
+
+D$ init: MESS walk_generator n=212604  mean=   40.09  median=  26.0  CV= 4.86  min=1  max=84693
+                             most common gaps (ns:share)  20:30.6%, 26:24.4%, 70:18.7%, 12:3.9%, 8:3.9%
+D$ MESS pointer-chase        n=131090  mean=    2.02  median=   2.0  CV= 1.37  min=2  max=967
+                             most common gaps (ns:share)  2:99.9%, 6:0.1%, 4:0.0%, 12:0.0%, 21:0.0%
+D$ traffic R100 P0           n=32078   mean=    3.94  median=   1.0  CV= 2.04  min=1  max=967
+                             most common gaps (ns:share)  1:79.8%, 15:15.8%, 18:2.0%, 17:2.0%, 4:0.2%
+D$ traffic R100 P50          n=32092   mean=   33.87  median=   1.0  CV= 1.95  min=1  max=967
+                             most common gaps (ns:share)  1:79.8%, 165:15.8%, 168:2.0%, 167:2.0%, 4:0.2%
+D$ traffic R70 P0            n=32089   mean=    4.03  median=   1.0  CV= 3.22  min=1  max=1824
+                             most common gaps (ns:share)  1:79.8%, 15:15.8%, 18:2.0%, 19:2.0%, 4:0.2%
+D$ traffic R70 P50           n=32072   mean=   33.91  median=   1.0  CV= 1.95  min=1  max=967
+                             most common gaps (ns:share)  1:79.8%, 165:15.8%, 169:2.0%, 168:2.0%, 4:0.2%
+
+L2$ all phases               n=423779  mean=   26.57  median=   2.0  CV=35.16  min=0  max=594816
+                             most common gaps (ns:share)  2:30.8%, 1:24.2%, 20:14.8%, 26:5.9%, 0:2.7%
+
+figures: hist_dcache_all.png hist_dcache_phases.png hist_l2_all.png
