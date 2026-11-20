@@ -39,8 +39,6 @@ $(BUILD):
 $(BUILD)/hello.riscv: sw/hello.c | $(BUILD)
 > $(RVCC) $(RVFLAGS) -o $@ $< $(RVRT) $(RVLINK)
 
-$(BUILD)/mess.riscv: sw/mess/mess.c sw/mess/mess_kernels.S | $(BUILD)
-> $(RVCC) $(RVFLAGS) -o $@ $^ $(RVRT) $(RVLINK)
 
 # ---------- Task 1: Spike's main() turned into a callable function spike_main() ----------
 $(BUILD)/spike_lib.cc: $(SPIKE_SRC)/spike_main/spike.cc | $(BUILD)
@@ -64,3 +62,16 @@ clean:
 > rm -rf $(BUILD)
 
 .PHONY: all clean
+
+# ---------- Task 2: MESS (BSC) RISC-V sources, compiled bare-metal at -O0 like their Makefiles ----------
+MESS_SRC  ?= /opt/Mess-benchmark/CPU/Actual-hardware/RISC-V/SiFive-HiFive-Unmatched-FU740-C000/mess/src
+MESS_GEN   = $(BUILD)/mess_src
+MESS_LOOP  = 1024
+RVFLAGS_O0 = $(filter-out -O2,$(RVFLAGS)) -O0
+
+$(MESS_GEN)/.imported: sw/mess/import_mess.sh | $(BUILD)
+> bash sw/mess/import_mess.sh $(MESS_SRC) $(MESS_GEN) $(MESS_LOOP)
+> touch $@
+
+$(BUILD)/mess.riscv: sw/mess/mess_spike.c $(MESS_GEN)/.imported
+> $(RVCC) $(RVFLAGS_O0) -I$(MESS_GEN) -o $@ sw/mess/mess_spike.c $(MESS_GEN)/utils.c $(MESS_GEN)/nop.c $(RVRT) $(RVLINK)
