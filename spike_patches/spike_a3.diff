@@ -1,0 +1,30 @@
+diff --git a/riscv/sim.cc b/riscv/sim.cc
+index 1e08490d..a4d44c60 100644
+--- a/riscv/sim.cc
++++ b/riscv/sim.cc
+@@ -3,6 +3,11 @@
+ #include "config.h"
+ #include "dtb_discovery.h"
+ #include "sim.h"
++
++// [A3] Instruction-stepping hook. nullptr = normal Spike. The SystemC
++// wrapper sets it to a function that blocks until the next clock edge.
++void (*spike_step_hook)() = nullptr;
++
+ #include "mmu.h"
+ #include "dts.h"
+ #include "remote_bitbang.h"
+@@ -546,7 +551,12 @@ void sim_t::idle()
+       }
+       *instruction_limit -= INTERLEAVE;
+     }
+-    step(INTERLEAVE);
++    if (spike_step_hook) {     // [A3] SystemC drives the ISS:
++      spike_step_hook();       //   wait for the next clock edge,
++      step(1);                 //   then execute exactly ONE instruction
++    } else {
++      step(INTERLEAVE);        // original free-running Spike
++    }
+   }
+ 
+   if (remote_bitbang) {
