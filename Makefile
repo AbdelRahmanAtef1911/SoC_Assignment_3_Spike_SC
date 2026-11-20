@@ -21,8 +21,8 @@ RVRT    = $(RVTESTS)/benchmarks/common/crt.S $(RVTESTS)/benchmarks/common/syscal
 # ---------- host side: Spike linked into our own programs ----------
 CXX       = g++
 CXXFLAGS  = -std=c++20 -O2 -w
-SPIKE_INC = -I$(BUILD) -I$(SPIKE_BLD) -I$(SPIKE_SRC) -I$(SPIKE_SRC)/riscv -I$(SPIKE_SRC)/fesvr \
-            -I$(SPIKE_SRC)/softfloat -I$(SPIKE_SRC)/fdt -I$(SPIKE_SRC)/disasm \
+SPIKE_INC = -I$(BUILD) -I$(SPIKE_BLD) -I$(SPIKE_SRC) -idirafter $(SPIKE_SRC)/riscv -idirafter $(SPIKE_SRC)/fesvr \
+            -idirafter $(SPIKE_SRC)/softfloat -idirafter $(SPIKE_SRC)/fdt -idirafter $(SPIKE_SRC)/disasm \
             -iquote $(SPIKE_SRC)/spike_main
 SPIKE_ARS  = $(wildcard $(addprefix $(SPIKE_BLD)/lib,$(addsuffix .a,riscv disasm softfloat fesvr fdt)))
 # --whole-archive keeps Spike's self-registering devices/extensions (static constructors)
