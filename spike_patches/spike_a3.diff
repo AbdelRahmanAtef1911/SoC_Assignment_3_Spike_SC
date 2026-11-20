@@ -1,3 +1,31 @@
+diff --git a/riscv/cachesim.cc b/riscv/cachesim.cc
+index 24e87d37..151173db 100644
+--- a/riscv/cachesim.cc
++++ b/riscv/cachesim.cc
+@@ -1,6 +1,12 @@
+ // See LICENSE for license details.
+ 
+ #include "cachesim.h"
++#include <cstdio>
++// [A3] Cache-miss log. Both stay nullptr in normal Spike; the SystemC
++// wrapper opens the file and provides the current simulation time.
++FILE*   spike_miss_log = nullptr;
++double (*spike_time_ns)() = nullptr;
++
+ #include "common.h"
+ #include <cstdlib>
+ #include <iostream>
+@@ -132,6 +138,10 @@ void cache_sim_t::access(uint64_t addr, size_t bytes, bool store)
+   }
+ 
+   store ? write_misses++ : read_misses++;
++  if (spike_miss_log)    // [A3] log the miss with the current SystemC time
++    fprintf(spike_miss_log, "%.0f,%s,%c,0x%llx\n",
++            spike_time_ns ? spike_time_ns() : -1.0, name.c_str(),
++            store ? 'W' : 'R', (unsigned long long)addr);
+   if (log)
+   {
+     std::cerr << name << " "
 diff --git a/riscv/sim.cc b/riscv/sim.cc
 index 1e08490d..a4d44c60 100644
 --- a/riscv/sim.cc
