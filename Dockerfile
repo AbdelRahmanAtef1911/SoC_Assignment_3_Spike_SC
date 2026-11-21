@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gcc-riscv64-unknown-elf picolibc-riscv64-unknown-elf \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- SystemC 2.3.3, C++20 (same as the course image) ----
+# ---- SystemC 2.3.3, C++20  ----
 ENV SYSTEMC_HOME=/opt/systemc
 RUN mkdir -p /tmp/sc && cd /tmp/sc \
  && wget -q https://accellera.org/images/downloads/standards/systemc/systemc-2.3.3.tar.gz \

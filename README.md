@@ -1,6 +1,6 @@
 # SoC Assignment 3 — Spike ISS inside SystemC, MESS, cache-miss histogram
 
-COE 407/661 System on Chip, KFUPM.
+COE 661 System on Chip, KFUPM.
 
 | Task | Where |
 |---|---|
